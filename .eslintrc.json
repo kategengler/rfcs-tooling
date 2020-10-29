@@ -1,0 +1,20 @@
+{
+  "plugins": [
+    "node",
+    "mocha",
+    "prettier"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "plugin:mocha/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "node/no-unpublished-require": "off"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020
+  }
+}
