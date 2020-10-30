@@ -7,35 +7,26 @@ const argv = require('yargs').command('* [paths..]', 'run lint on files', (yargs
     .demandOption('paths');
 }).argv;
 
-const linter = require('./lib/frontmatter-linter');
+const Linter = require('./lib/frontmatter-linter');
 const fs = require('fs');
-const chalk = require('chalk');
+const ResultReporter = require('./lib/result-reporter');
 
 let results = [];
 for (let path of argv.paths) {
   let file = fs.readFileSync(path, 'utf8');
-  let { messages } = linter.lint(file);
+  let { messages } = Linter.lint(file);
   if (messages.length) {
-    results.push({ path, messages });
+    results.push({ key: path, messages });
   }
 }
 
-function log() {
-  console.log(...arguments);
-}
-
-results.forEach(({ path, messages }) => {
-  log(chalk.bold(path));
-  messages.forEach((message) => {
-    log('  ', chalk.red('error'), ` ${message}`);
-  });
-
-  log(`\n`);
-});
+let reporter = new ResultReporter(results);
+reporter.outputDetails();
+reporter.outputSummary(
+  `No RFC frontmatter errors!`,
+  `${results.length} RFCs have frontmatter errors`
+);
 
 if (results.length) {
-  log(chalk.red(`${results.length} RFCs have frontmatter errors`));
   process.exitCode = 1;
-} else {
-  log(chalk.green(`No RFC frontmatter errors!`));
 }
