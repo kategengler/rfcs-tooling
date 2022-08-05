@@ -1,0 +1,5 @@
+- Lint using mdlint
+- PR RFC metadata update
+- Actions to transition & open PRs
+- Rewrite metadata with defined order, other attrs at end, enforce via lint
+- Ensure filename & metadata match
