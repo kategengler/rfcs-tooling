@@ -1,135 +1,154 @@
-const describe = require('mocha').describe;
-const it = require('mocha').it;
 const expect = require('chai').expect;
 const FrontmatterLinter = require('../lib/frontmatter-linter');
 
 const defaultMetadataMarkdown = `---
-Stage: Proposed
-Start Date: 
-Release Date: Unreleased
-Release Versions:
+stage: proposed
+start-date: 
+release-date: Unreleased
+release-versions:
   ember-source: vX.Y.Z
   ember-data: vX.Y.Z
-Relevant Team(s): 
-RFC PR: 
+teams: 
+prs: 
+  accepted: 
 ---`;
 
 const emptyMetadata = `---
 ---`;
 
 const nonExistentStageMarkdown = `---
-Stage: Propsed
-Start Date: 2020-01-01 
-Release Date: Unreleased
-Release Versions:
+stage: propsed
+start-date: 2020-01-01 
+release-date: Unreleased
+release-versions:
   ember-source: vX.Y.Z
   ember-data: vX.Y.Z
-Relevant Team(s): Ember.js 
-RFC PR: https://github.com/emberjs/rfcs/pull/123
+teams: 
+  - framework
+prs: 
+  accepted: https://github.com/emberjs/rfcs/pull/123
 ---`;
 
 const missingReleaseDataMarkdown = `---
-Stage: Recommended
-Start Date: 2020-01-01
-Release Date: Unreleased
-Release Versions:
+stage: recommended
+start-date: 2020-01-01
+release-date: Unreleased
+release-versions:
   ember-source: vX.Y.Z
   ember-data: vX.Y.Z
-Relevant Team(s): Ember.js
-RFC PR: https://github.com/emberjs/rfcs/pull/123/
+teams: 
+  - framework
+prs:
+  accepted: https://github.com/emberjs/rfcs/pull/123/
 ---`;
 
 const completedMetadataMarkdown = `---
-Stage: Recommended
-Start Date: 2020-01-01 
-Release Date: 2020-04-02 
-Release Versions:
+stage: recommended
+start-date: 2020-01-01 
+release-date: 2020-04-02 
+release-versions:
   ember-source: v1.1.1
   ember-data: v0.0.3
-Relevant Team(s): Ember.js 
-RFC PR: https://github.com/emberjs/rfcs/pull/123
+teams: 
+  - framework
+prs:
+  accepted: https://github.com/emberjs/rfcs/pull/123
 ---`;
 
 const wrongURLForRFCMetadataMarkdown = `---
-Stage: Recommended
-Start Date: 2020-01-01 
-Release Date: 2020-04-02 
-Release Versions:
+stage: recommended
+start-date: 2020-01-01 
+release-date: 2020-04-02 
+release-versions:
   ember-source: v1.1.1
   ember-data: v0.0.3
-Relevant Team(s): Ember.js 
-RFC PR: https://github.com/emberjs/rfcs/pull/123/files
+teams: 
+  - framework
+prs: 
+  accepted: https://github.com/emberjs/rfcs/pull/123/files
 ---`;
 
 const cliUrlForRFCMetadataMarkdown = `---
-Stage: Recommended
-Start Date: 2020-01-01 
-Release Date: 2020-04-02 
-Release Versions:
+stage: recommended
+start-date: 2020-01-01 
+release-date: 2020-04-02 
+release-versions:
   ember-source: v1.1.1
   ember-data: v0.0.3
-Relevant Team(s): Ember.js 
-RFC PR: https://github.com/ember-cli/rfcs/pull/123
+teams: 
+  - framework
+prs: 
+  accepted: https://github.com/ember-cli/rfcs/pull/123
 ---`;
 
+let linter;
+
 describe('FrontmatterLinter', function () {
+  beforeEach(function () {
+    linter = new FrontmatterLinter(
+      ['proposed', 'exploring', 'accepted', 'ready-for-release', 'released', 'recommended'],
+      ['framework']
+    );
+  });
+
   it('reports errors for empty frontmatter/metadata', function () {
     let errorsForMissingMetadata = [
-      'Stage is required',
-      'Start Date is required',
-      'Relevant Team(s) is required',
-      'RFC PR is required',
+      'stage is required',
+      'start-date is required',
+      'teams is required',
+      'prs is required',
     ];
 
-    let results = FrontmatterLinter.lint('');
+    let linter = new FrontmatterLinter();
+    let results = linter.lint('');
     expect(results.messages).to.deep.eql(errorsForMissingMetadata);
 
-    results = FrontmatterLinter.lint(emptyMetadata);
+    results = linter.lint(emptyMetadata);
     expect(results.messages).to.deep.eql(errorsForMissingMetadata);
   });
 
   it('reports errors for default metadata', function () {
-    let results = FrontmatterLinter.lint(defaultMetadataMarkdown);
+    let results = linter.lint(defaultMetadataMarkdown);
 
     expect(results.messages).to.deep.eql([
-      'Start Date must be a date formatted YYYY-MM-DD',
-      'Relevant Team(s) must be a list of one or more Ember teams',
-      'RFC PR must be the URL for the original pull request on emberjs/rfcs, for example: https://github.com/emberjs/rfcs/pull/123',
+      'prs.accepted must be the URL for the original pull request on emberjs/rfcs, for example: https://github.com/emberjs/rfcs/pull/123',
+      'start-date must be a date formatted YYYY-MM-DD',
+      'teams must be a list of one or more Ember teams',
     ]);
   });
 
   it('reports errors for non-existent stage', function () {
-    let results = FrontmatterLinter.lint(nonExistentStageMarkdown);
+    let results = linter.lint(nonExistentStageMarkdown);
 
     expect(results.messages).to.deep.eql([
-      `Stage must be one of the RFC Stages: "Proposed", "Exploring", "Accepted", "Ready for Release", "Released", "Recommended" (See https://github.com/emberjs/rfcs#stages)`,
+      `stage must be one of the RFC Stages: "proposed", "exploring", "accepted", "ready-for-release", "released", "recommended" (See https://github.com/emberjs/rfcs#stages)`,
     ]);
   });
 
   it('reports errors for Release metadata when released', function () {
-    let results = FrontmatterLinter.lint(missingReleaseDataMarkdown);
+    let results = linter.lint(missingReleaseDataMarkdown);
 
     expect(results.messages).to.deep.eql([
-      'Release Date must be a date formatted YYYY-MM-DD',
-      'Release Versions packages must each be set to the version in which the RFC work was released in that package (Should not be default vX.Y.Z, should be removed if irrelevant)',
+      'release-date must be a date formatted YYYY-MM-DD',
+      'release-versions packages must each be set to the version in which the RFC work was released in that package (Should not be default vX.Y.Z, should be removed if irrelevant)',
     ]);
   });
 
   it('reports errors for incorrect RFC PR URL', function () {
-    let results = FrontmatterLinter.lint(wrongURLForRFCMetadataMarkdown);
+    let results = linter.lint(wrongURLForRFCMetadataMarkdown);
 
     expect(results.messages).to.deep.eql([
-      'RFC PR must be the URL for the original pull request on emberjs/rfcs, for example: https://github.com/emberjs/rfcs/pull/123',
+      'prs.accepted must be the URL for the original pull request on emberjs/rfcs, for example: https://github.com/emberjs/rfcs/pull/123',
     ]);
   });
 
   it('reports NO errors for completed metadata', function () {
-    let results = FrontmatterLinter.lint(completedMetadataMarkdown);
+    let results = linter.lint(completedMetadataMarkdown);
     expect(results.messages).to.be.empty;
   });
 
   it('reports NO errors for completed metadata with CLI RFC URL', function () {
-    let results = FrontmatterLinter.lint(cliUrlForRFCMetadataMarkdown);
+    let results = linter.lint(cliUrlForRFCMetadataMarkdown);
     expect(results.messages).to.be.empty;
   });
 });
