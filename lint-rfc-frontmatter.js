@@ -8,13 +8,18 @@ const argv = require('yargs').command('* [paths..]', 'run lint on files', (yargs
 }).argv;
 
 const Linter = require('./lib/frontmatter-linter');
-const fs = require('fs');
+const { readFileSync, readdirSync } = require('fs');
 const ResultReporter = require('./lib/result-reporter');
+
+const stages = readdirSync('./stages').map((filename) => filename.replace(/\.md$/, ''));
+const teams = readdirSync('./teams').map((filename) => filename.replace(/\.md$/, ''));
+
+const linter = new Linter(stages, teams);
 
 let results = [];
 for (let path of argv.paths) {
-  let file = fs.readFileSync(path, 'utf8');
-  let { messages } = Linter.lint(file);
+  let file = readFileSync(path, 'utf8');
+  let { messages } = linter.lint(file);
   if (messages.length) {
     results.push({ key: path, messages });
   }
