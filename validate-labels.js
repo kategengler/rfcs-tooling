@@ -52,15 +52,30 @@ for (let path of argv.paths) {
   if (data) {
     let stage = data['stage'];
     if (stage in STAGE_LABELS) {
-      let validLabel = STAGE_LABELS[stage];
-      let invalidLabels = Object.values(STAGE_LABELS).filter(l => l !== validLabel);
-      if (!labels.includes(validLabel)) {
-        fileResults.push(`Expected presence of '${validLabel}' label to match stage in frontmatter`);
+      let validLabels = [STAGE_LABELS[stage]];
+      if (stage in ADDITIONAL_ALLOWED_LABELS) {
+        validLabels.push(...ADDITIONAL_ALLOWED_LABELS[stage]);
       }
-      for (let label in invalidLabels) {
+
+
+      let matchedLabel;
+
+      for (let label in validLabels) {
         if (labels.includes(label)) {
-          fileResults.push(`'${label}' label does not matach stage in frontmatter`);
+          matchedLabel = label;
+          break;
         }
+      }
+
+      if (matchedLabel) {
+        let invalidLabels = Object.values(STAGE_LABELS).filter(l => l !== matchedLabel);
+        for (let label in invalidLabels) {
+          if (labels.includes(label)) {
+            fileResults.push(`'${label}' label does not match stage in frontmatter or more than one label was specified`);
+          }
+        }
+      } else {
+        fileResults.push(`Expected presence of a label matching match stage in frontmatter. Valid labels: ${JSON.stringify(validLabels)}`);
       }
     } else {
       fileResults.push(`Invalid stage: ${stage}`);
