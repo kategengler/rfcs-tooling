@@ -57,10 +57,9 @@ for (let path of argv.paths) {
         validLabels.push(...ADDITIONAL_ALLOWED_LABELS[stage]);
       }
 
-
       let matchedLabel;
 
-      for (let label in validLabels) {
+      for (let label of validLabels) {
         if (labels.includes(label)) {
           matchedLabel = label;
           break;
@@ -69,7 +68,7 @@ for (let path of argv.paths) {
 
       if (matchedLabel) {
         let invalidLabels = Object.values(STAGE_LABELS).filter(l => l !== matchedLabel);
-        for (let label in invalidLabels) {
+        for (let label of invalidLabels) {
           if (labels.includes(label)) {
             fileResults.push(`'${label}' label does not match stage in frontmatter or more than one label was specified`);
           }
