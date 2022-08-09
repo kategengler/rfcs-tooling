@@ -40,7 +40,7 @@ let labels = argv.labels.split(',');
 
 let results = [];
 for (let path of argv.paths) {
-  let fileResults;
+  let fileResults = [];
 
   let file = readFileSync(`${ROOTDIR}/${path}`, 'utf8');
   let { data, errors } = frontmatter(file, { filepath: path });
