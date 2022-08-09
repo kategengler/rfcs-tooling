@@ -53,7 +53,7 @@ for (let path of argv.paths) {
     let stage = data['stage'];
     if (stage in STAGE_LABELS) {
       let validLabel = STAGE_LABELS[stage];
-      let invalidLabels = Object.values(STAGE_LABELS).reject(l => l == validLabel);
+      let invalidLabels = Object.values(STAGE_LABELS).filter(l => l !== validLabel);
       if (!labels.includes(validLabel)) {
         fileResults.push(`Expected presence of '${validLabel}' label to match stage in frontmatter`);
       }
