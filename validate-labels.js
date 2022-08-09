@@ -75,7 +75,7 @@ for (let path of argv.paths) {
           }
         }
       } else {
-        fileResults.push(`Expected presence of a label matching match stage in frontmatter. Valid labels: ${JSON.stringify(validLabels)}`);
+        fileResults.push(`Expected presence of a label matching match stage in frontmatter. Valid labels: ${JSON.stringify(validLabels)}. Found: ${JSON.stringify(labels)}`);
       }
     } else {
       fileResults.push(`Invalid stage: ${stage}`);
