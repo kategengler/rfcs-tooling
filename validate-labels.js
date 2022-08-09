@@ -34,7 +34,7 @@ const ADDITIONAL_ALLOWED_LABELS = {
   accepted: ["S-Proposed", "S-Exploring"]
 };
 
-const ROOTDIR = process.env;
+const ROOTDIR = process.env.ROOTDIR;
 
 let labels = argv.labels.split(',');
 
