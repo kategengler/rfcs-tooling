@@ -34,13 +34,15 @@ const ADDITIONAL_ALLOWED_LABELS = {
   accepted: ["S-Proposed", "S-Exploring"]
 };
 
+const ROOTDIR = process.env;
+
 let labels = argv.labels.split(',');
 
 let results = [];
 for (let path of argv.paths) {
   let fileResults;
 
-  let file = readFileSync(path, 'utf8');
+  let file = readFileSync(`${ROOTDIR}/${path}`, 'utf8');
   let { data, errors } = frontmatter(file, { filepath: path });
 
   if (errors.length > 0) {
