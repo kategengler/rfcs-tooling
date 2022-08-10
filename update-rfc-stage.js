@@ -1,10 +1,10 @@
 const argv = require('yargs').command(
   '* newStage [paths..]',
-  'run check on file names',
+  'update stage in frontmatter',
   (yargs) => {
     return yargs
       .positional('newStage', {
-        describe: 'The stage to update the RFC metadata to',
+        describe: 'The stage to update the RFC frontmatter to',
         type: 'string',
       })
       .positional('paths', {
