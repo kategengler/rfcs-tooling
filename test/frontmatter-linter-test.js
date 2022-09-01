@@ -68,6 +68,36 @@ prs:
   accepted: https://github.com/emberjs/rfcs/pull/123/files
 ---`;
 
+const multiplePrsKeysMetadata = `---
+stage: recommended
+start-date: 2020-01-01 
+release-date: 2020-04-02 
+release-versions:
+  ember-source: v1.1.1
+  ember-data: v0.0.3
+teams: 
+  - framework
+prs: 
+  accepted: https://github.com/emberjs/rfcs/pull/123/
+  ready-for-release: https://example.com/emberjs/rfcs/pull/456/
+  released: https://github.com/emberjs/ember.js/pull/789/
+  recommended: https://raw.github.com/emberjs/rfcs/987
+---`;
+
+const extraPrsKeysMetadata = `---
+stage: recommended
+start-date: 2020-01-01 
+release-date: 2020-04-02 
+release-versions:
+  ember-source: v1.1.1
+  ember-data: v0.0.3
+teams: 
+  - framework
+prs: 
+  accepted: https://github.com/emberjs/rfcs/pull/123/
+  edition: https://github.com/emberjs/rfcs/pull/456/ 
+---`;
+
 const cliUrlForRFCMetadataMarkdown = `---
 stage: recommended
 start-date: 2020-01-01 
@@ -150,6 +180,24 @@ describe('FrontmatterLinter', function () {
 
     expect(results.messages).to.deep.eql([
       'prs.accepted must be the URL for the original pull request on emberjs/rfcs, for example: https://github.com/emberjs/rfcs/pull/123',
+    ]);
+  });
+
+  it('reports errors for each incorrect key under prs', function () {
+    let results = linter.lint(multiplePrsKeysMetadata);
+
+    expect(results.messages).to.deep.eql([
+      'prs.ready-for-release must be the URL for the advancement pull request on emberjs/rfcs, for example: https://github.com/emberjs/rfcs/pull/123',
+      'prs.released must be the URL for the advancement pull request on emberjs/rfcs, for example: https://github.com/emberjs/rfcs/pull/123',
+      'prs.recommended must be the URL for the advancement pull request on emberjs/rfcs, for example: https://github.com/emberjs/rfcs/pull/123',
+    ]);
+  });
+
+  it('reports errors for extraneous keys under prs', function () {
+    let results = linter.lint(extraPrsKeysMetadata);
+
+    expect(results.messages).to.deep.eql([
+      'prs must only include keys for RFC Stages: proposed, exploring, accepted, ready-for-release, released, recommended',
     ]);
   });
 
