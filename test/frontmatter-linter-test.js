@@ -81,6 +81,18 @@ prs:
   accepted: https://github.com/ember-cli/rfcs/pull/123
 ---`;
 
+const malformedMetadataMarkdown = `---
+stage: proposed
+start-date: 
+release-date: Unreleased
+release-versions:
+  ember-source: vX.Y.Z
+  ember-data: vX.Y.Z
+teams: 
+prs: 
+  accepted: [my-pr](https://github.com/emberjs/rfcs/pull/123)
+---`;
+
 let linter;
 
 describe('FrontmatterLinter', function () {
@@ -99,7 +111,6 @@ describe('FrontmatterLinter', function () {
       'prs is required',
     ];
 
-    let linter = new FrontmatterLinter();
     let results = linter.lint('');
     expect(results.messages).to.deep.eql(errorsForMissingMetadata);
 
@@ -150,5 +161,13 @@ describe('FrontmatterLinter', function () {
   it('reports NO errors for completed metadata with CLI RFC URL', function () {
     let results = linter.lint(cliUrlForRFCMetadataMarkdown);
     expect(results.messages).to.be.empty;
+  });
+
+  it('reports errors for malformed metadata', function () {
+    let results = linter.lint(malformedMetadataMarkdown);
+    let errorsForMissingMetadata = [
+      'YML parsing error! - can not read an implicit mapping pair; a colon is missed',
+    ];
+    expect(results.messages).to.deep.eql(errorsForMissingMetadata);
   });
 });
