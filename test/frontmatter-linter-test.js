@@ -19,7 +19,7 @@ const emptyMetadata = `---
 const nonExistentStageMarkdown = `---
 stage: propsed
 start-date: 2020-01-01 
-release-date: Unreleased
+release-date: 
 release-versions:
   ember-source: vX.Y.Z
   ember-data: vX.Y.Z
@@ -155,6 +155,7 @@ describe('FrontmatterLinter', function () {
       'prs.accepted must be the URL for the original pull request on emberjs/rfcs, for example: https://github.com/emberjs/rfcs/pull/123',
       'start-date must be a date formatted YYYY-MM-DD',
       'teams must be a list of one or more Ember teams',
+      'release-date must be a date formatted YYYY-MM-DD',
     ]);
   });
 
