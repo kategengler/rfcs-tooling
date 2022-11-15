@@ -16,7 +16,7 @@
   },
   "parserOptions": {
     "ecmaVersion": 2020
-  }, 
+  },
   "overrides": [
     {
       "files": "test/**/*.js",
