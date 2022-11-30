@@ -17,7 +17,7 @@ prs:
 
 ## My heading
 
-Foo bar baz
+Foo bar baz null
 `;
 
 const readyForReleaseMarkdown = `---
@@ -36,7 +36,7 @@ prs:
 
 ## My heading
 
-Foo bar baz
+Foo bar baz null
 `;
 
 const updatedDeepKeysMarkdown = `---
@@ -58,7 +58,7 @@ prs:
 
 ## My heading
 
-Foo bar baz
+Foo bar baz null
 `;
 
 describe('FrontmatterUpdater', function () {
