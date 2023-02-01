@@ -7,7 +7,7 @@ const argv = require('yargs').command('* [paths..]', 'list frontmatter from file
     .demandOption('paths');
 }).argv;
 
-const frontmatter = require('@github-docs/frontmatter');
+const frontmatter = require('../lib/frontmatter.js');
 const { readFileSync } = require('fs');
 
 let results = [];
