@@ -21,7 +21,7 @@ const argv = require('yargs').command(
 
 const { readFileSync, writeFileSync } = require('fs');
 
-const Updater = require('./lib/frontmatter-updater');
+const Updater = require('../lib/frontmatter-updater');
 
 let path = argv.path;
 let file = readFileSync(path, 'utf8');
