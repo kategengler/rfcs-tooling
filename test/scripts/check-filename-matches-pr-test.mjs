@@ -19,7 +19,7 @@ describe('Check filename matches PR', function () {
     }
   });
 
-  it('errors for a filename that does not include a number', async function () {
+  it('fails for a filename that does not include a number', async function () {
     try {
       await execScript('5673', 'tests/fixtures/my-new-rfc.md');
     } catch (e) {
