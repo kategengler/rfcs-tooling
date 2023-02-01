@@ -11,7 +11,7 @@ const argv = require('yargs').command(
   }
 ).argv;
 
-const frontmatter = require('@github-docs/frontmatter');
+const frontmatter = require('../lib/frontmatter.js');
 const { readFileSync } = require('fs');
 
 let markdown = readFileSync(argv.path, 'utf8');

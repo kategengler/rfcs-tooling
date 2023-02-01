@@ -7,7 +7,7 @@ const argv = require('yargs').command('* path', 'find the next stage for an RFC'
     .demandOption(['path']);
 }).argv;
 
-const frontmatter = require('@github-docs/frontmatter');
+const frontmatter = require('../lib/frontmatter.js');
 const { readFileSync } = require('fs');
 
 const MergedStages = ['accepted', 'ready-for-release', 'released', 'recommended'];

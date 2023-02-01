@@ -16,7 +16,7 @@ const argv = require('yargs').command(
 ).argv;
 
 const simpleGit = require('simple-git');
-const frontmatter = require('@github-docs/frontmatter');
+const frontmatter = require('../lib/frontmatter.js');
 const { readFileSync } = require('fs');
 
 return new Promise((resolve) => {

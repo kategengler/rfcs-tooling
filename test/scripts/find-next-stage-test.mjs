@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { execa } from 'execa';
 
-describe('Find next stage', function () {
+describe('find-next-stage', function () {
   it('outputs the next stage based on the stage in the rfc file', async function () {
     let result = await execScript('test/fixtures/1234-what-now.md');
     expect(result.exitCode).to.equal(0);
