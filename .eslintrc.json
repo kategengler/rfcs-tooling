@@ -12,14 +12,15 @@
   ],
   "rules": {
     "prettier/prettier": "error",
-    "node/no-unpublished-require": "off"
+    "node/no-unpublished-require": "off",
+    "node/no-unpublished-import": "off"
   },
   "parserOptions": {
     "ecmaVersion": 2020
   },
   "overrides": [
     {
-      "files": "test/**/*.js",
+      "files": ["test/**/*.js", "tests/**/*.mjs"],
       "env": {
         "mocha": true
       }
