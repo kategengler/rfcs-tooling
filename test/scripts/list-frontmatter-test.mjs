@@ -21,6 +21,7 @@ describe('list-frontmatter', function () {
         prs: {
           accepted: null,
         },
+        title: "My New RFC"
       },
       {
         name: 'test/fixtures/0923-already-recommended.md',
@@ -34,6 +35,7 @@ describe('list-frontmatter', function () {
         prs: {
           accepted: null,
         },
+        title: "My Completely finished RFC"
       },
     ]);
   });
