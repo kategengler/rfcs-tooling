@@ -44,5 +44,5 @@ describe('find-next-stage', function () {
 });
 
 async function execScript(rfcPath) {
-  return execa('node', ['scripts/find-next-stage.js', rfcPath]);
+  return execa('node', ['scripts/find-next-stage.mjs', rfcPath]);
 }

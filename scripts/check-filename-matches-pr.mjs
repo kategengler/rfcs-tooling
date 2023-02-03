@@ -1,4 +1,8 @@
-const argv = require('yargs').command('* prNumber path', 'run check on file names', (yargs) => {
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers'
+import ResultReporter from '../lib/result-reporter.mjs';
+
+const argv = yargs(hideBin(process.argv)).command('* prNumber path', 'run check on file names', (yargs) => {
   return yargs
     .positional('pr_number', {
       describe: 'The # of the current PR',
@@ -10,8 +14,6 @@ const argv = require('yargs').command('* prNumber path', 'run check on file name
     })
     .demandOption(['path', 'prNumber']);
 }).argv;
-
-const ResultReporter = require('../lib/result-reporter');
 
 let results = [];
 let parts = argv.path.split('/');

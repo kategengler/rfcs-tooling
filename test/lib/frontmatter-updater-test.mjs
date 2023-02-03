@@ -1,5 +1,6 @@
-const expect = require('chai').expect;
-const FrontmatterUpdater = require('../lib/frontmatter-updater');
+import chai from 'chai';
+import FrontmatterUpdater from '../../lib/frontmatter-updater.mjs';
+const expect = chai.expect;
 
 const baseMarkdown = `---
 stage: accepted

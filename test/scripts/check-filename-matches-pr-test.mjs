@@ -32,5 +32,5 @@ describe('check-filename-matches-pr', function () {
 });
 
 async function execScript(prNumber, rfcFilename) {
-  return execa('node', ['scripts/check-filename-matches-pr.js', prNumber, rfcFilename]);
+  return execa('node', ['scripts/check-filename-matches-pr.mjs', prNumber, rfcFilename]);
 }
