@@ -1,5 +1,7 @@
-const expect = require('chai').expect;
-const FrontmatterLinter = require('../lib/frontmatter-linter');
+import chai from 'chai';
+import FrontmatterLinter from '../../lib/frontmatter-linter.mjs';
+
+const expect = chai.expect;
 
 const defaultMetadataMarkdown = `---
 stage: proposed

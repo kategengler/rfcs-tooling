@@ -29,5 +29,5 @@ describe('rfc-frontmatter', function () {
 });
 
 async function execScript(path) {
-  return execa('node', ['scripts/rfc-frontmatter.js', path]);
+  return execa('node', ['scripts/rfc-frontmatter.mjs', path]);
 }

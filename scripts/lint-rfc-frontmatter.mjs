@@ -1,4 +1,10 @@
-const argv = require('yargs').command('* [paths..]', 'run lint on files', (yargs) => {
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers'
+import Linter from '../lib/frontmatter-linter.mjs';
+import ResultReporter from '../lib/result-reporter.mjs';
+import { readFileSync, readdirSync } from 'node:fs';
+
+const argv = yargs(hideBin(process.argv)).command('* [paths..]', 'run lint on files', (yargs) => {
   return yargs
     .positional('paths', {
       describe: 'file paths to run the lint on',
@@ -7,9 +13,6 @@ const argv = require('yargs').command('* [paths..]', 'run lint on files', (yargs
     .demandOption('paths');
 }).argv;
 
-const Linter = require('../lib/frontmatter-linter');
-const { readFileSync, readdirSync } = require('fs');
-const ResultReporter = require('../lib/result-reporter');
 
 const stages = readdirSync('./stages').map((filename) => filename.replace(/\.md$/, ''));
 const teams = readdirSync('./teams').map((filename) => filename.replace(/\.md$/, ''));

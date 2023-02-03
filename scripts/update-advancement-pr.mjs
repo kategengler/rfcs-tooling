@@ -1,4 +1,9 @@
-const argv = require('yargs').command(
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+import { readFileSync, writeFileSync } from 'node:fs';
+import Updater from '../lib/frontmatter-updater.mjs';
+
+const argv = yargs(hideBin(process.argv)).command(
   '* path stage prUrl',
   'update advancement PR in frontmatter',
   (yargs) => {
@@ -18,10 +23,6 @@ const argv = require('yargs').command(
       .demandOption(['path', 'stage', 'prUrl']);
   }
 ).argv;
-
-const { readFileSync, writeFileSync } = require('fs');
-
-const Updater = require('../lib/frontmatter-updater');
 
 let path = argv.path;
 let file = readFileSync(path, 'utf8');

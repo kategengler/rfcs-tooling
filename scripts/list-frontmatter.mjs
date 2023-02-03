@@ -1,4 +1,9 @@
-const argv = require('yargs').command('* [paths..]', 'list frontmatter from files', (yargs) => {
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers'
+import { readFileSync } from 'node:fs';
+import { frontmatter } from '../lib/frontmatter.mjs';
+
+const argv = yargs(hideBin(process.argv)).command('* [paths..]', 'list frontmatter from files', (yargs) => {
   return yargs
     .positional('paths', {
       describe: 'file paths to list frontmatter from',
@@ -7,9 +12,6 @@ const argv = require('yargs').command('* [paths..]', 'list frontmatter from file
     .demandOption('paths');
 }).argv;
 
-const frontmatter = require('../lib/frontmatter.js');
-const { readFileSync } = require('fs');
-
 let results = [];
 for (let path of argv.paths) {
   let markdown = readFileSync(path, 'utf8');
@@ -17,9 +19,9 @@ for (let path of argv.paths) {
   if (errors.length) {
     console.error(JSON.stringify(errors));
     process.exitCode = 1;
-    return;
+  } else {
+    results.push({ name: path, ...data });
   }
-  results.push({ name: path, ...data });
 }
 
 console.log(JSON.stringify(results, null, 2));

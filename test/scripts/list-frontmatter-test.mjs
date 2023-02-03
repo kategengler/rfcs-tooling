@@ -48,5 +48,5 @@ describe('list-frontmatter', function () {
 });
 
 async function execScript(paths) {
-  return execa('node', ['scripts/list-frontmatter.js', ...paths]);
+  return execa('node', ['scripts/list-frontmatter.mjs', ...paths]);
 }
