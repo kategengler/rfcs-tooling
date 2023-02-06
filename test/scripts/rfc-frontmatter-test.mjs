@@ -16,7 +16,7 @@ describe('rfc-frontmatter', function () {
       prs: {
         accepted: null,
       },
-      title: "My New RFC"
+      title: 'My New RFC',
     });
   });
 

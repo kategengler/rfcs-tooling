@@ -1,16 +1,20 @@
 import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers'
+import { hideBin } from 'yargs/helpers';
 import { readFileSync } from 'node:fs';
 import { frontmatter } from '../lib/frontmatter.mjs';
 
-const argv = yargs(hideBin(process.argv)).command('* [paths..]', 'list frontmatter from files', (yargs) => {
-  return yargs
-    .positional('paths', {
-      describe: 'file paths to list frontmatter from',
-      type: 'array',
-    })
-    .demandOption('paths');
-}).argv;
+const argv = yargs(hideBin(process.argv)).command(
+  '* [paths..]',
+  'list frontmatter from files',
+  (yargs) => {
+    return yargs
+      .positional('paths', {
+        describe: 'file paths to list frontmatter from',
+        type: 'array',
+      })
+      .demandOption('paths');
+  }
+).argv;
 
 let results = [];
 for (let path of argv.paths) {

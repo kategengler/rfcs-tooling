@@ -23,7 +23,7 @@ My grand plans...
 ## Another heading
 
 some stuff we will do
-`
+`;
 
 const RfcWithBlocksInHeader = `---
 stage: accepted
@@ -40,16 +40,15 @@ prs:
 
 # Deprecate \`foo\` and \`bar\`; immediately
 ## Another heading
-`
+`;
 
-
-describe('title', function() {
-  it('returns the contents of the first top-level header in the doc', async function() {
+describe('title', function () {
+  it('returns the contents of the first top-level header in the doc', async function () {
     let header = title(RFC);
     expect(header).to.equal('My New RFC');
   });
 
-  it('returns the text contents of the first top-level header in the doc when there are blocks', async function() {
+  it('returns the text contents of the first top-level header in the doc when there are blocks', async function () {
     let header = title(RfcWithBlocksInHeader);
     expect(header).to.equal('Deprecate foo and bar; immediately');
   });

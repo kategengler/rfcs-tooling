@@ -1,16 +1,20 @@
 import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers'
+import { hideBin } from 'yargs/helpers';
 import { readFileSync } from 'node:fs';
 import { frontmatter } from '../lib/frontmatter.mjs';
 
-const argv = yargs(hideBin(process.argv)).command('* path', 'find the next stage for an RFC', (yargs) => {
-  return yargs
-    .positional('path', {
-      describe: 'file path of the RFC to check',
-      type: 'string',
-    })
-    .demandOption(['path']);
-}).argv;
+const argv = yargs(hideBin(process.argv)).command(
+  '* path',
+  'find the next stage for an RFC',
+  (yargs) => {
+    return yargs
+      .positional('path', {
+        describe: 'file path of the RFC to check',
+        type: 'string',
+      })
+      .demandOption(['path']);
+  }
+).argv;
 
 function main() {
   const MergedStages = ['accepted', 'ready-for-release', 'released', 'recommended'];

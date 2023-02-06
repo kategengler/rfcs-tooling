@@ -1,5 +1,5 @@
 import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers'
+import { hideBin } from 'yargs/helpers';
 import { frontmatter } from '../lib/frontmatter.mjs';
 import { readFileSync } from 'node:fs';
 
@@ -15,7 +15,6 @@ const argv = yargs(hideBin(process.argv)).command(
       .demandOption(['path']);
   }
 ).argv;
-
 
 let markdown = readFileSync(argv.path, 'utf8');
 const { data, errors } = frontmatter(markdown);
