@@ -1,5 +1,5 @@
 import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers'
+import { hideBin } from 'yargs/helpers';
 import { readFileSync, writeFileSync } from 'node:fs';
 import Updater from '../lib/frontmatter-updater.mjs';
 

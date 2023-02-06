@@ -1,5 +1,5 @@
 import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers'
+import { hideBin } from 'yargs/helpers';
 import Linter from '../lib/frontmatter-linter.mjs';
 import ResultReporter from '../lib/result-reporter.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -12,7 +12,6 @@ const argv = yargs(hideBin(process.argv)).command('* [paths..]', 'run lint on fi
     })
     .demandOption('paths');
 }).argv;
-
 
 const stages = readdirSync('./stages').map((filename) => filename.replace(/\.md$/, ''));
 const teams = readdirSync('./teams').map((filename) => filename.replace(/\.md$/, ''));

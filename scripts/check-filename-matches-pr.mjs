@@ -1,19 +1,23 @@
 import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers'
+import { hideBin } from 'yargs/helpers';
 import ResultReporter from '../lib/result-reporter.mjs';
 
-const argv = yargs(hideBin(process.argv)).command('* prNumber path', 'run check on file names', (yargs) => {
-  return yargs
-    .positional('pr_number', {
-      describe: 'The # of the current PR',
-      type: 'number',
-    })
-    .positional('path', {
-      describe: 'file path to run the lint on',
-      type: 'string',
-    })
-    .demandOption(['path', 'prNumber']);
-}).argv;
+const argv = yargs(hideBin(process.argv)).command(
+  '* prNumber path',
+  'run check on file names',
+  (yargs) => {
+    return yargs
+      .positional('pr_number', {
+        describe: 'The # of the current PR',
+        type: 'number',
+      })
+      .positional('path', {
+        describe: 'file path to run the lint on',
+        type: 'string',
+      })
+      .demandOption(['path', 'prNumber']);
+  }
+).argv;
 
 let results = [];
 let parts = argv.path.split('/');

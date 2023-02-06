@@ -1,5 +1,5 @@
 import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers'
+import { hideBin } from 'yargs/helpers';
 import simpleGit from 'simple-git';
 import { readFileSync } from 'node:fs';
 import { frontmatter } from '../lib/frontmatter.mjs';
@@ -24,7 +24,7 @@ const argv = yargs(hideBin(process.argv)).command(
 const currentMarkdown = readFileSync(argv.path, 'utf8');
 const { data: currentData } = frontmatter(currentMarkdown);
 try {
-  const originalMarkdown = await simpleGit().show(`${argv.baseSha}:${argv.path}`)
+  const originalMarkdown = await simpleGit().show(`${argv.baseSha}:${argv.path}`);
   const { data: originalData } = frontmatter(originalMarkdown);
   if (originalData.stage !== currentData.stage) {
     console.log(
